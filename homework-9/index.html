@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Tamagochi-2</title>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+    </head>
+    <body>
+        <div class="main-section">
+            <div  class="main-section__pet">
+                <img class="pet__mood" id="pet" src="img/happy.jpg" alt="happy" width="170px">
+            </div>
+
+            <div class="stats main-section__stats">
+                <h3 class="stats__title">Stats</h3>
+
+                <div  class="stats__bars">Food:
+                    <p id="stats__food--percent"></p>
+                </div>
+                <div class="stats__bars">Clean:
+                    <p id="stats__clean--percent"></p>
+                </div>
+                <div class="stats__bars">Happiness:
+                    <p id="stats__happiness--percent"></p>
+                </div>
+            </div>
+
+            <div class="button main-section__button">
+                <button class="button__actions button__actions--eat" onclick="feed()">Eat</button>
+                <button class="button__actions button__actions--wash" onclick="bath()">Wash</button>
+                <button class="button__actions button__actions--run" onclick="run()">Run</button>
+            </div>
+        </div>
+        <div id="massage" ></div>
+        <div id="restart" onclick='window.location.reload()'></div>
+        <script src="js/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,30 @@
+#stats__food--percent, #stats__clean--percent, #stats__happiness--percent{
+    height: 100px;
+    width: 35px;
+    background-color: coral;
+}
+.main-section{
+    margin: 0 auto;
+    max-width: 400px;
+}
+.main-section__stats{
+    display: flex;
+    flex-direction: row;
+}
+.stats__title {
+    padding-top: 90px;
+}
+.stats__bars{
+    padding: 10px;
+}
+.button__actions{
+    margin: 10px 13px;
+    padding: 10px 20px;
+    border:none;
+    border-radius: 15px;
+    background-color: limegreen;
+    cursor: pointer;
+}
+#massage{
+    color: crimson;
+}
