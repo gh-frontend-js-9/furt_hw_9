@@ -1,4 +1,4 @@
-#stats__food--percent, #stats__clean--percent, #stats__happiness--percent{
+#stats__food--percent, #stats__clean--percent, #stats__happiness--percent,#stats__health--percent, #stats__socialization--percent, #stats__money--percent{
     height: 100px;
     width: 35px;
     background-color: coral;
@@ -19,7 +19,7 @@
 }
 .button__actions{
     margin: 10px 13px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border:none;
     border-radius: 15px;
     background-color: limegreen;

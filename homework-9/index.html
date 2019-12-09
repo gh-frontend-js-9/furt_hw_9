@@ -16,22 +16,35 @@
                 <div  class="stats__bars">Food:
                     <p id="stats__food--percent"></p>
                 </div>
+                <div  class="stats__bars">Food:
+                    <p id="stats__happiness--percent"></p>
+                </div>
                 <div class="stats__bars">Clean:
                     <p id="stats__clean--percent"></p>
                 </div>
-                <div class="stats__bars">Happiness:
-                    <p id="stats__happiness--percent"></p>
+                <div class="stats__bars">Health:
+                    <p id="stats__health--percent"></p>
+                </div>
+                <div class="stats__bars">Socialization:
+                    <p id="stats__socialization--percent"></p>
+                </div>
+                <div class="stats__bars"> Money:
+                    <p id="stats__money--percent"></p>
                 </div>
             </div>
 
             <div class="button main-section__button">
-                <button class="button__actions button__actions--eat" onclick="feed()">Eat</button>
-                <button class="button__actions button__actions--wash" onclick="bath()">Wash</button>
-                <button class="button__actions button__actions--run" onclick="run()">Run</button>
+                <button class="button__actions button__actions--eat " id="eat">Eat</button>
+                <button class="button__actions button__actions--wash"id="bath">Wash</button>
+                <button class="button__actions button__actions--run" id="run">Run</button>
+                <button class="button__actions button__actions--run" id="visitDoctor">visit doctor</button>
+                <button class="button__actions button__actions--run" id="goToWork">go to work</button>
+                <button class="button__actions button__actions--run" id="buyFood">buy food</button>
+                <button class="button__actions button__actions--run" id="startBusiness">start a business</button>
             </div>
         </div>
         <div id="massage" ></div>
         <div id="restart" onclick='window.location.reload()'></div>
-        <script src="js/main.js"></script>
+        <script src="js/main.js" defer></script>
     </body>
 </html>
