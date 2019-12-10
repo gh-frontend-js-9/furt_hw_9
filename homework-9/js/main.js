@@ -1,151 +1,173 @@
 let initialIteration = true;
-
 let percentageFormatter = (value) => {
     return value + "%";
 }
 
-
 class Tamag {
-    constructor(maxPoints, foodPoints, happinessPoints, cleanPoints, healthPoints, socializationPoints, moneyPoints) {
+    constructor(maxPoints) {
         this.maxPoits = maxPoints;
-        this.foodPoints = foodPoints;
-        this.happinessPoints = happinessPoints;
-        this.cleanPoints = cleanPoints;
-        this.healthPoints = healthPoints;
-        this.socializationPoints = socializationPoints;
-        this.moneyPoints = moneyPoints;
+        this.foodPoints = getRandomInt(50, maxPoints);
+        this.happinessPoints = getRandomInt(50, maxPoints);
+        this.cleanPoints = getRandomInt(50, maxPoints);
+        this.healthPoints = getRandomInt(50, maxPoints);
+        this.socializationPoints = getRandomInt(50, maxPoints);
+        this.moneyPoints = getRandomInt(50, maxPoints);
+        this.initialize();
+        this.startTime = new Date();
+    }
+    initialize() {
+        this.registerBathHtmlClickEventHandler();
+        this.registerFeedHtmlClickEventHandler();
+        this.registerRunHtmlClickEventHandler();
+        this.registerVisitDoctorHtmlClickEventHandler();
+        this.registerBuyFoodHtmlClickEventHandler();
+        this.registerStartBusinessHtmlClickEventHandler();
+        this.registerGoToWorkHtmlClickEventHandler();
+        this.startGame();
+    }
+    isTamagochiDied() {
+        if (this.foodPoints <= 0 || this.cleanPoints <= 0 || this.happinessPoints <= 0 || this.healthPoints <= 0 || this.socializationPoints <= 0 || this.moneyPoints <= 0) {
+            document.getElementById("pet").src = "img/verybad.png";
+            document.getElementById('massage').innerHTML = 'Your pet is dead. You can restart the game and start over.';
+        }
+    }
+
+    renderRestartButtot() {
+        if (initialIteration) {
+            let restartContainerElem = document.getElementById('restart');
+            let buttonElem = document.createElement('button');   //новый эл button
+            buttonElem.innerHTML = 'restart';     //содержание кнопки
+            restartContainerElem.appendChild(buttonElem); //вставить в конец элемента переданный элемент
+        }
+        initialIteration = false;
+    }
+
+    decreaseStatPerTimerTick() {
+        this.foodPoints -= parseInt(reduceByPoint);
+        this.cleanPoints -= parseInt(reduceByPoint);
+        this.happinessPoints -= parseInt(reduceByPoint);
+        this.healthPoints -= parseInt(reduceByPoint);
+        this.socializationPoints -= parseInt(reduceByPoint);
+        this.moneyPoints -= parseInt(reduceByPoint);
     }
 
     timer(reduceByPoint) {
-        let isTamagochiDied = () => {
-            return (this.foodPoints <= 0 || this.cleanPoints <= 0 || this.happinessPoints <= 0 || this.healthPoints <= 0 || this.socializationPoints <= 0 || this.moneyPoints <= 0)
+        let renderTamagStats = () => {
+            HtmlTextSetter.byElemId('stats__food--percent').setText(percentageFormatter(this.foodPoints));
+            HtmlTextSetter.byElemId('stats__clean--percent').setText(percentageFormatter(this.cleanPoints));
+            HtmlTextSetter.byElemId('stats__happiness--percent').setText(percentageFormatter(this.happinessPoints));
+            HtmlTextSetter.byElemId('stats__health--percent').setText(percentageFormatter(this.healthPoints));
+            HtmlTextSetter.byElemId('stats__socialization--percent').setText(percentageFormatter(this.socializationPoints));
+            HtmlTextSetter.byElemId('stats__money--percent').setText(percentageFormatter(this.moneyPoints));
         }
-        if (isTamagochiDied()) {
-            document.getElementById("pet").src = "img/verybad.png";
-            document.getElementById('massage').innerHTML = 'Your pet is dead. You can restart the game and start over.';
+        return renderTamagStats;
+    }
+    isRunOutOfMaxStatPoints(result, maxPoints) {
+        return result <= maxPoints;
+    }
 
-            if (initialIteration) {
-                let restartContainerElem = document.getElementById('restart');
-                let buttonElem = document.createElement('button');   //новый эл button
-                buttonElem.innerHTML = 'restart';     //содержание кнопки
-                restartContainerElem.appendChild(buttonElem); //вставить в конец элемента переданный элемент
-            }
-            initialIteration = false;
-        }
-
-        this.foodPoints -= parseInt(reduceByPoint);
-        this.cleanPoints -=   parseInt(reduceByPoint);
-        this.happinessPoints -=  parseInt(reduceByPoint);
-        this.healthPoints -=  parseInt(reduceByPoint);
-        this.socializationPoints -=  parseInt(reduceByPoint);
-        this.moneyPoints -= parseInt(reduceByPoint);
-
-        document.getElementById('stats__food--percent').innerHTML = percentageFormatter(this.foodPoints);
-        document.getElementById('stats__clean--percent').innerHTML = percentageFormatter(this.cleanPoints);
-        document.getElementById('stats__happiness--percent').innerHTML = percentageFormatter(this.happinessPoints);
-        document.getElementById('stats__health--percent').innerHTML = percentageFormatter( this.healthPoints);
-        document.getElementById('stats__socialization--percent').innerHTML = percentageFormatter(this.socializationPoints);
-        document.getElementById('stats__money--percent').innerHTML = percentageFormatter(this.moneyPoints);
-    }//timer
-
-    //
-    // isRunOutOfMaxStatPoints(result, maxPoints) {
-    //     return result <= this.maxPoints;
-    // }
-
-    feed() {
+    registerFeedHtmlClickEventHandler() {
         eat.onclick = () => {
-            let result =  this.foodPoints + 30;
-            let statFoodPersentElem = document.getElementById('stats__food--percent');
-            result <= 70 ? [result, this.cleanPoints -= 20] : statFoodPersentElem.innerHTML = percentageFormatter(this.foodPoints);
-console.log()
-            // this.result = this.foodPoints + 30;
-            // if (this.isRunOutOfMaxStatPoints(this.result, this.maxPoints)) {
-            //     return [this.result, this.cleanPoints -= 20];
-            // }
-            // document.getElementById('stats__food--percent').innerHTML = percentageFormatter(this.foodPoints);
+            this.result = this.foodPoints + 30;
+            if (this.isRunOutOfMaxStatPoints(this.result)) {
+                 this.cleanPoints -= 20;
+            }
+            HtmlTextSetter.byElemId('stats__food--percent').setText(percentageFormatter(this.foodPoints));
         }
     }
 
-    bath() {
+    registerBathHtmlClickEventHandler() {
         bath.onclick = () => {
             this.result = this.cleanPoints + 40;
             if (this.isRunOutOfMaxStatPoints(this.result)) {
-                return [this.result, this.happinessPoints -= 20];
+                this.happinessPoints -= 20;
             }
-            document.getElementById('stats__clean--percent').innerHTML = percentageFormatter(this.cleanPoints);
+            HtmlTextSetter.byElemId('stats__clean--percent').setText(percentageFormatter(this.cleanPoints));
         }
     }
 
-    run() {
+    registerRunHtmlClickEventHandler() {
         run.onclick = () => {
             this.result = this.happinessPoints + 15;
             if (this.isRunOutOfMaxStatPoints(this.result)) {
-                return [this.result, this.foodPoints -= 10];
+                return this.foodPoints -= 10;
             }
-            document.getElementById('stats__happiness--percent').innerHTML = percentageFormatter(this.happinessPoints);
+            HtmlTextSetter.byElemId('stats__happiness--percent').setText(percentageFormatter(this.happinessPoints));
         }
     }
-    visitDoctor() {
+
+    registerVisitDoctorHtmlClickEventHandler() {
         visitDoctor.onclick = () => {
-                this.result = this.healthPoints + 30;
-                if (this.isRunOutOfMaxStatPoints(this.result)) {
-                    return [this.result, this.moneyPoints -= 20];
-                }
-                document.getElementById('stats__health--percent').innerHTML = percentageFormatter(this.healthPoints);
+            this.result = this.healthPoints + 30;
+            if (this.isRunOutOfMaxStatPoints(this.result)) {
+                 this.moneyPoints -= 20;
             }
-    }
-    buyFood(){
-            buyFood.onclick = () => {
-                this.result = this.foodPoints + 15;
-                if (this.isRunOutOfMaxStatPoints(this.result)) {
-                    return [this.result, this.moneyPoints -= 15];
-                }
-                document.getElementById('stats__food--percent').innerHTML = percentageFormatter(this.foodPoints);
-            }
+            HtmlTextSetter.byElemId('stats__health--percent').setText(percentageFormatter(this.healthPoints));
         }
-    startBusiness(){
-            startBusiness.onclick = () => {
-                this.result = this.moneyPoints + 100;
-                if (this.isRunOutOfMaxStatPoints(this.result)) {
-                    return [this.result, this.happinessPoints += 100, this.healthPoints -= 100, this.socializationPoints += 20]
-                }
-                document.getElementById('stats__money--percent').innerHTML = percentageFormatter(this.moneyPoints);
-                document.getElementById('stats__happiness--percent').innerHTML = percentageFormatter(this.happinessPoints);
-                document.getElementById('stats__socialization--percent').innerHTML = percentageFormatter(this.socializationPoints);
-            }
-        }
-
-    startGame(reduceByPoint){
-        this.timer(reduceByPoint)
-        setInterval(this.timer.bind(this, reduceByPoint), 1000)
     }
 
-}//Tamag
+    registerBuyFoodHtmlClickEventHandler() {
+        buyFood.onclick = () => {
+            this.result = this.foodPoints + 15;
+            if (this.isRunOutOfMaxStatPoints(this.result)) {
+                this.moneyPoints -= 15;
+            }
+            HtmlTextSetter.byElemId('stats__food--percent').setText(percentageFormatter(this.foodPoints));
+        }
+    }
 
+    registerStartBusinessHtmlClickEventHandler() {
+        startBusiness.onclick = () => {
+            this.result = this.moneyPoints + 100;
+            if (this.isRunOutOfMaxStatPoints(this.result)) {
+                this.happinessPoints += 100;
+                this.healthPoints -= 100;
+                this.socializationPoints += 20;
+            }
+            HtmlTextSetter.byElemId('stats__money--percent').setText(percentageFormatter(this.moneyPoints));
+            HtmlTextSetter.byElemId('stats__happiness--percent').setText(percentageFormatter(this.happinessPoints));
+            HtmlTextSetter.byElemId('stats__socialization--percent').setText(percentageFormatter(this.socializationPoints));
+        }
+    }
+
+        registerGoToWorkHtmlClickEventHandler() {
+            goToWork.onclick = () => {
+                this.result = this.moneyPoints + 50;
+                if (this.isRunOutOfMaxStatPoints(this.result)) {
+                    this.moneyPoints += 50;
+                    this.foodPoints -= 10;
+                    this.socializationPoints -= 20;
+                }
+                HtmlTextSetter.byElemId('stats__money--percent').setText(percentageFormatter(this.moneyPoints))
+                HtmlTextSetter.byElemId('stats__happiness--percent').setText(percentageFormatter(this.foodPoints));
+                HtmlTextSetter.byElemId('stats__socialization--percent').setText(percentageFormatter(this.socializationPoints));
+            }
+        }
+        startGame(reduceByPoint){
+            this.timer(reduceByPoint);
+            setInterval(this.timer.bind(this, reduceByPoint), 1000);
+        }
+}
+class HtmlTextSetter {
+    static byElemId(elemId){
+        return new HtmlTextSetter(document.getElementById(elemId));
+    }
+    constructor(elem){
+        this.elem = elem;
+    }
+    setText(text){
+        this.elem.innerHTML = text;
+    }
+}
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-let pug = new Tamag(70, getRandomInt(50, 70), getRandomInt(50, 70), getRandomInt(50, 70), getRandomInt(50, 70), getRandomInt(50, 70), getRandomInt(50, 70));
-pug.startGame(3);
+ new Tamag(70).startGame(3);
 
-pug.bath();
-pug.feed();
-pug.run();
-pug.visitDoctor();
-pug.buyFood();
-pug.startBusiness();
-console.log(pug);
 
-// let kitty = new Tamag(getRandomInt(50, 100), getRandomInt(50, 100), getRandomInt(50, 100), getRandomInt(50,100), getRandomInt(50,100), getRandomInt(50, 100));
-// kitty.startGame();
-// kitty.timer(5);
-// getRandomInt(50, 100);
-// kitty.bath();
-// kitty.feed();
-// kitty.run();
-// console.log(kitty)
+
+
 
 
 
